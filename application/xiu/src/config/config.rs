@@ -3,7 +3,7 @@ use serde_derive::Deserialize;
 use std::fs;
 use std::vec::Vec;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Default)]
 pub struct Config {
     pub rtmp: Option<RtmpConfig>,
     pub httpflv: Option<HttpFlvConfig>,
@@ -11,33 +11,33 @@ pub struct Config {
     pub log: Option<LogConfig>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, Default)]
 pub struct RtmpConfig {
     pub enabled: bool,
     pub port: u32,
     pub pull: Option<RtmpPullConfig>,
     pub push: Option<Vec<RtmpPushConfig>>,
 }
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, Default)]
 pub struct RtmpPullConfig {
     pub enabled: bool,
     pub address: String,
     pub port: u16,
 }
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, Default)]
 pub struct RtmpPushConfig {
     pub enabled: bool,
     pub address: String,
     pub port: u16,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, Default)]
 pub struct HttpFlvConfig {
     pub enabled: bool,
     pub port: u32,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, Default)]
 pub struct HlsConfig {
     pub enabled: bool,
     pub port: u32,
@@ -60,6 +60,21 @@ pub fn load(cfg_path: &String) -> Result<Config, ConfigError> {
     let content = fs::read_to_string(cfg_path)?;
     let decoded_config = toml::from_str(&content[..]).unwrap();
     Ok(decoded_config)
+}
+
+#[test]
+fn test_default_parse() {
+    //let built_config = Config { hls: HlsConfig{enabled: true, port: 8080}, ... Default::default()};
+
+    let hls_config: Option<HlsConfig> = Some(HlsConfig {
+        enabled: true,
+        port: 1234,
+        ..Default::default()
+    });
+    let built_config = Config {
+        hls: hls_config,
+        ..Default::default()
+    };
 }
 
 #[test]
