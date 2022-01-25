@@ -25,7 +25,7 @@ impl Service {
         Service { cfg: cfg }
     }
 
-    async fn run(&mut self) -> Result<()> {
+    pub async fn run(&mut self) -> Result<()> {
         let mut channel = ChannelsManager::new();
 
         self.start_httpflv(&mut channel).await?;
