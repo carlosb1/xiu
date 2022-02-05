@@ -55,8 +55,8 @@ async fn main() -> Result<()> {
             env_logger::init();
 
             /*run the service*/
-            let mut serivce = Service::new(val);
-            serivce.run().await?;
+            let mut service = Service::new(val);
+            service.run().await?;
         }
         _ => (),
     }

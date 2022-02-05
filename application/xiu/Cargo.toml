@@ -37,3 +37,12 @@ version = "1.4.0"
 default-features = false
 #features = ["rt-core", "rt-threaded", "macros", "time","sync"]
 features = ["full"]
+
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"
