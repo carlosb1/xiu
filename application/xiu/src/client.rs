@@ -14,10 +14,13 @@ async fn main() -> Result<()> {
         ..Default::default()
     });
     let built_config = Config {
-        hls: hls_config,
+        hls: hls_config.clone(),
         ..Default::default()
     };
     let mut service = Service::new(built_config);
+
+    println!("listening in port {:?}", hls_config.unwrap().port);
+
     service.run().await?;
     signal::ctrl_c().await?;
     Ok(())
